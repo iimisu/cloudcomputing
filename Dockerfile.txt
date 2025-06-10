@@ -1,0 +1,18 @@
+# 使用一个官方的、轻量级的Python 3.9镜像作为基础
+FROM python:3.9-slim
+
+# 在容器中创建一个工作目录
+WORKDIR /app
+
+# 将依赖文件复制到工作目录中
+COPY requirements.txt .
+
+# 安装脚本所需的所有依赖库
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 将分析脚本复制到工作目录中
+COPY analyzer.py .
+
+# 定义容器启动时要执行的命令。
+# 脚本名作为入口点，后续的参数将在 `docker run` 时追加
+ENTRYPOINT ["python", "analyzer.py"]
